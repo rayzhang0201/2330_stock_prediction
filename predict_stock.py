@@ -8,23 +8,24 @@ import os, sys
 from stock_rnn_model import StockRnnModel
 import datetime
 
+if len(sys.argv) < 6:
+    print("Usage:")
+    print("  python predict_stock.py ${2330_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day}")
+    print("Ex.")
+    print("  # python predict_stock.py ./2330_new_csv m2o LSTM 20 1")
+    print("  # python predict_stock.py ./2330_new_csv m2m GRU 20 5")
+    sys.exit(0)
+
 csv_raw_file = sys.argv[1]
 input_output_type = sys.argv[2] # "m2o" or "m2m"
 model_type = sys.argv[3] # "LSTM" or "GRU"
-past_day = sys.argv[4]
-future_day = sys.argv[5]
+past_day = int(sys.argv[4])
+future_day = int(sys.argv[5])
 
 def info(message):
     print("%s --- %s" % (datetime.datetime.now(), message))
 
 def precheck():
-    if len(sys.argv) < 6:
-        info("Usage:")
-        info("  python predict_stock.py ${2330_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day}")
-        info("Ex.")
-        info("  # python predict_stock.py ./2330_new_csv m2o LSTM 20 1")
-        info("  # python predict_stock.py ./2330_new_csv m2m GRU 20 5")
-        sys.exit(1)
     if past_day <= 0 or future_day <= 0:
         info("Please check past_day or future_day parameters.")
         info("They can not be zero or negative integer.")
