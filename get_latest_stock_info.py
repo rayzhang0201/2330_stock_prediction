@@ -7,6 +7,11 @@ import numpy as np
 from bs4 import BeautifulSoup
 import os, sys
 
+if len(sys.argv) < 3:
+    print("Usage:")
+    print("  python ./get_latest_stock_info.py ${download_csv_path} ${merged_csv_path}")
+    sys.exit(0)
+
 default_csv = "./2330_20201112_20201204.csv"
 download_csv = sys.argv[1]
 merged_csv = sys.argv[2]
@@ -132,14 +137,16 @@ def calculate_ma_and_bband(default_df, recent_df):
     recent_df['ma'] = recent_ma
     recent_df['bband_up'] = recent_bband_up
     recent_df['bband_down'] = recent_bband_down
-
     return recent_df
 
+def rename_date(df):
+    date_list = []
+    for index in range(len(df)):
+        date_list.append(re.sub("/0", "/", df.iloc[index]['date']))
+    df['date'] = date_list
+    return df
+
 if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        info("Usage:")
-        info("  python ./get_latest_stock_info.py ${download_csv} ${merged_csv}")
-        sys.exit(0)
     info("Load default 2330 csv.")
     default_df = utils.read_csv_to_df(default_csv)
     #print(default_df)
@@ -147,10 +154,12 @@ if __name__ == '__main__':
     info("Load downloaded 2330 csv.")
     new_df = utils.read_csv_to_df(download_csv)
     rename_df = rename_dataframe(new_df).iloc[::-1].reset_index(drop=True)
+    rename_df = rename_date(rename_df)
     #print(rename_df)
 
     info("Try to get detail information from other websites.")
     detail_info_df = get_detail_info_df(rename_df)
+    detail_info_df = rename_date(detail_info_df)
     #print(detail_info_df)
 
     info("Try to merge downloaded csv and detail information.")

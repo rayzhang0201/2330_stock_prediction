@@ -10,10 +10,10 @@ import datetime
 
 if len(sys.argv) < 6:
     print("Usage:")
-    print("  python predict_stock.py ${2330_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day}")
+    print("  python predict_stock.py ${merged_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day}")
     print("Ex.")
-    print("  # python predict_stock.py ./2330_new_csv m2o LSTM 20 1")
-    print("  # python predict_stock.py ./2330_new_csv m2m GRU 20 5")
+    print("  # python predict_stock.py ./2330_new.csv m2o LSTM 20 1")
+    print("  # python predict_stock.py ./2330_new.csv m2m GRU 20 5")
     sys.exit(0)
 
 csv_raw_file = sys.argv[1]

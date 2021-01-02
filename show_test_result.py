@@ -9,10 +9,10 @@ import datetime
 
 if len(sys.argv) < 7:
     print("Usage:")
-    print("  python show_test_result.py ${2330_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day} ${show_interval}")
+    print("  python show_test_result.py ${merged_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day} ${show_interval}")
     print("Ex.")
-    print("  # python show_test_result.py ./2330_new_csv m2o LSTM 20 1 60")
-    print("  # python show_test_result.py ./2330_new_csv m2m GRU 20 5 60")
+    print("  # python show_test_result.py ./2330_new.csv m2o LSTM 20 1 60")
+    print("  # python show_test_result.py ./2330_new.csv m2m GRU 20 5 60")
     sys.exit(1)
 
 csv_raw_file = sys.argv[1]
