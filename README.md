@@ -37,7 +37,7 @@ Also, please assign merged csv name with the parameter.
 Usage:
 
 ` # python predict_stock.py ${merged_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day} `
-> If you skip the step 2, please use "2330\_20201112\_20201204.csv"** as ${merged\_csv\_path} parameter.
+> If you skip the step 2, please use "2330\_20201112\_20201204.csv" as ${merged\_csv\_path} parameter.
 
 
 Ex.
