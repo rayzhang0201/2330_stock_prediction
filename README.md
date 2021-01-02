@@ -53,19 +53,18 @@ Train a GRU model and input 20 past day close prices to predict 5 future day pri
 `# python predict_stock.py ./2330_new.csv m2m GRU 20 5`
 
 > This action will generate a **training weight** with past day and future day based on LSTM or GRU model.
-
+> 
 > You can use m2o (many to one) or (many to many) to get the prediction result 
-
 > 
 > **Please make sure your environment is GUI compatible system.**
 > 
-> **It will generate a training price result in the end.**
+> **It will generate a training price image result in the end.**
 
 ### 4. Let's start to test the RNN model
 
 Usage:
 
-` # python show_test_result.py ${merged_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day} ${show_interval}"`
+` # python show_test_result.py ${merged_csv_path} [m2o|m2m] [LSTM|GRU] ${past_day} ${future_day} ${show_interval}`
 > You can use the dataset you want to test as ${merged\_csv\_path} parameter.
 >
 > Using "all" for ${show\_interval} will show all prediction.
@@ -82,3 +81,4 @@ Test a GRU model and input 20 past day close prices to predict 5 future day pric
 
 `# python show_test_result.py ./2330_new.csv m2m GRU 20 5 60`
 
+### 5. Enjoy the inference result
