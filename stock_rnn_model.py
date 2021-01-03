@@ -41,13 +41,12 @@ class StockRnnModel:
             for row in predicted_close:
                 inner_index = predicted_index
                 for column in row:
-                    if not inner_index in predicted_close_dict:
+                    if not str(inner_index) in predicted_close_dict:
                         predicted_close_dict[str(inner_index)] = [column]
                     else:
                         predicted_close_dict[str(inner_index)].append(column)
                     inner_index = inner_index + 1
                 predicted_index = predicted_index + 1
-
             for key, value in predicted_close_dict.items():
                 if method == "mean":
                     new_predicted_close.append([statistics.mean(value)])

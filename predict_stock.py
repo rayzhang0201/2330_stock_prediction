@@ -55,6 +55,8 @@ def plot_stock(date_series, raw_close, predicted_close):
     date_list = date_series.values.tolist()
     part_date_list_index = date_list_index[::int(len(date_list_index)/10)]
     part_date_list = date_list[::int(len(date_list)/10)]
+    part_date_list_index.pop()
+    part_date_list.pop()
     part_date_list_index.append(date_list_index[-1])
     part_date_list.append(date_list[-1])
     plt.clf()
@@ -65,7 +67,7 @@ def plot_stock(date_series, raw_close, predicted_close):
     plt.plot(raw_close['close'], color='red', label='close')
     plt.plot(predicted_close['close'], color='blue', label='close')
     plt.legend(['raw_close', 'predicted_close'], loc='upper left')
-    plt.savefig('price_comparison.png')
+    plt.savefig(model_type + "_" + input_output_type + "_train_price_comparison.png")
     plt.show()
 
 def model_score(model, X_train, y_train, X_test, y_test):
@@ -85,7 +87,7 @@ def plot_loss(history_dict):
 
 def build_train(train_norm_df, pastDay, futureDay):
     X_train, Y_train = [], []
-    for i in range(train_norm_df.shape[0] - futureDay - pastDay):
+    for i in range(train_norm_df.shape[0] - futureDay - pastDay + 1):
         X_train.append(np.array(train_norm_df.iloc[i:i + pastDay]))
         Y_train.append(np.array(train_norm_df.iloc[i + pastDay:i + pastDay + futureDay]["close"]))
     return np.array(X_train), np.array(Y_train)
@@ -130,7 +132,7 @@ if __name__ == "__main__":
     info("Feature shape: %s" % str(X_train.shape))
     info("Ground truth shape: %s" % str(Y_train.shape))
     final_test_for_all = X_train
-    first_half_close_df = train_norm_df['close'].iloc[0:past_day+1].to_frame()
+    first_half_close_df = train_norm_df['close'].iloc[0:past_day].to_frame()
     info("=================================")
 
     info("Start to shuffle and split data for training and validation.")
@@ -160,12 +162,11 @@ if __name__ == "__main__":
     info("=================================")
 
     predicted_close = model.predict(final_test_for_all)
+    #print(predicted_close)
+    #print(predicted_close.shape)
     predicted_close = stock_rnn_model.get_avereage_predicted_close(predicted_close, "mean")
     #print(predicted_close)
-    #print(len(predicted_close))
     #print(predicted_close.shape)
-    #print(predicted_close.shape)
-    #print(type(predicted_close))
     predicted_close_df = pd.DataFrame({'close': predicted_close[:, 0]})
     predicted_norm_df = pd.concat([first_half_close_df, predicted_close_df], ignore_index=True)
     predicted_df = denormalize_dataframe(close_df, predicted_norm_df)
