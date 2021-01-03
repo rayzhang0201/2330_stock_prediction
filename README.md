@@ -82,3 +82,6 @@ Test a GRU model and input 20 past day close prices to predict 5 future day pric
 `# python show_test_result.py ./2330_new.csv m2m GRU 20 5 60`
 
 ## 5. Enjoy the inference result
+![image](https://github.com/rayzhang0201/2330_stock_prediction/blob/main/result_example/GRU_m2o_all_test_price_comparison.png)
+![image](https://github.com/rayzhang0201/2330_stock_prediction/blob/main/result_example/GRU_m2m_120_test_price_comparison.png)
+
