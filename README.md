@@ -60,7 +60,7 @@ Train a GRU model and input 20 past day close prices to predict 5 future day pri
 > 
 > **It will generate a training price image result in the end.**
 
-### 4. Let's start to test the RNN model
+## 4. Let's start to test the RNN model
 
 Usage:
 
@@ -81,4 +81,4 @@ Test a GRU model and input 20 past day close prices to predict 5 future day pric
 
 `# python show_test_result.py ./2330_new.csv m2m GRU 20 5 60`
 
-### 5. Enjoy the inference result
+## 5. Enjoy the inference result
