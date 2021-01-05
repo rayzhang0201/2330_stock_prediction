@@ -35,7 +35,7 @@ def get_year_month_data(year, month, url):
     soup.encoding = 'utf-8'
     return soup
 
-def get_margin_data(soup):
+def get_margin_data(soup, year, month):
     margin_trading = []
     short_selling = []
     table = soup.find('table')
@@ -44,11 +44,15 @@ def get_margin_data(soup):
         if tr.has_attr('class'):
             td = tr.find_all('td')
             row = [tr.text for tr in td]
+            mod_year = formalize_data(row[0]).split("/", 1)[0]
+            mod_month = formalize_data(row[0]).split("/", 1)[1]
+            if not (mod_year == year and month in mod_month):
+                continue
             margin_trading.append(formalize_data(row[1]))
             short_selling.append(formalize_data(row[3]))
     return list(reversed(margin_trading)), list(reversed(short_selling))
 
-def get_institutional_investor(soup):
+def get_institutional_investor(soup, year, month):
     da = []
     it = []
     d = []
@@ -59,6 +63,10 @@ def get_institutional_investor(soup):
         if tr.has_attr('class'):
             td = tr.find_all('td')
             row = [tr.text for tr in td]
+            mod_year = formalize_data(row[0]).split("/", 1)[0]
+            mod_month = formalize_data(row[0]).split("/", 1)[1]
+            if not(mod_year == year and month in mod_month):
+                continue
             mod_date = str(int(formalize_data(row[0]).split("/", 1)[0]) + 1911) + "/" + formalize_data(row[0]).split("/", 1)[1]
             da.append(mod_date)
             it.append(formalize_data(row[1]))
@@ -86,14 +94,14 @@ def get_detail_info_df(rename_df):
         year = year_month_pair.split("/")[0]
         month = year_month_pair.split("/")[1]
         soup = get_year_month_data(year, month, "netbuy")
-        tmp_date, tmp_investment_trust, tmp_dealer, tmp_foreign_invenstor = get_institutional_investor(soup)
+        tmp_date, tmp_investment_trust, tmp_dealer, tmp_foreign_invenstor = get_institutional_investor(soup, year, month)
         date = date + tmp_date
         investment_trust = investment_trust + tmp_investment_trust
         dealer = dealer + tmp_dealer
         foreign_invenstor = foreign_invenstor + tmp_foreign_invenstor
         #print(tmp_date, tmp_investment_trust, tmp_dealer)
         soup = get_year_month_data(year, month, "acredit")
-        tmp_margin_trading, tmp_short_selling = get_margin_data(soup)
+        tmp_margin_trading, tmp_short_selling = get_margin_data(soup, year, month)
         margin_trading = margin_trading + tmp_margin_trading
         short_selling = short_selling + tmp_short_selling
         #print(tmp_margin_trading, tmp_short_selling)
