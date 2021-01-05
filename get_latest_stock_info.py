@@ -179,6 +179,7 @@ if __name__ == '__main__':
 
     info("Try to merge default csv and new csv.")
     final_df = pd.concat([default_df, recent_df], ignore_index=True)
+    final_df = final_df.dropna()
     utils.df_to_csv(final_df, merged_csv)
     print(final_df)
     info("Check the file: %s" % merged_csv)
